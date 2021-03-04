@@ -24,6 +24,14 @@ class ProductsList{
             const productObj = new ProductItem(product);
             block.insertAdjacentHTML('beforeend',productObj.render())
         }
+        this.calc();
+    }
+
+    calc() {
+        let totalPrice = 0;
+        for(let product of this.goods)
+            totalPrice += product.price;
+        console.log(totalPrice);
     }
     
 }
