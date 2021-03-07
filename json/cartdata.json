@@ -1,0 +1,20 @@
+[
+    { 
+        "id": 2,
+        "title": "A man in the red shirt",
+        "price": 50, 
+        "image": "man_in_red_shirt.jpg",
+        "size": "XL",
+        "color": "red",
+        "quantity": 1
+    },
+    { 
+        "id": 3,
+        "title": "A man in a hoody",
+        "price": 350, 
+        "image": "man_in_hoody.jpg", 
+        "size": "XXL",
+        "color": "green",
+        "quantity": 1
+    }    
+]
