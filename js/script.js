@@ -194,7 +194,7 @@ class Cart extends List{
             Quantity.style.display = 'none';
             Empty.classList.remove('visually-hidden');
         }
-        Quantity.style.display = 'none';
+//      Quantity.style.display = 'none';
         subTotal.textContent = `sub total $${subtotalPrice}`;
         grandTotal.textContent = `grand total $${subtotalPrice}`;
     }
