@@ -1,183 +1,278 @@
 const API = 'http://127.0.0.1:5500/json';
 
-// *****************   КАТАЛОГ ТОВАРОВ   *****************
+// *****************   ОБЩИЕ КЛАССЫ ДЛЯ КАТАЛОГА И КОРЗИНЫ  *****************
 
-class ProductsList { // класс списка товаров на странице каталога
-    constructor(container = '.catalog__grid') {
+
+class List {
+    constructor(url, container, list = list2) {
         this.container = container;
-        this.goods = []; //массив товаров
-        this.allProducts = []; //массив объектов
-        this._getProducts()
-            .then(data => { //data - объект js
-                this.goods = [...data];
-                this.render()
-            });
-        }
-
-    render() {
-        const block = document.querySelector(this.container);
-        for(let product of this.goods){
-            const productObj = new ProductItem(product);
-            this.allProducts.push(productObj);
-            block.insertAdjacentHTML('beforeend',productObj.render())
-        }
-        console.log(this.calc());
+        this.list = list;
+        this.url = url;
+        this.goods = [];
+        this.allProducts = [];
+        this._init();
     }
 
-    calc() {
-        return this.allProducts.reduce((sum,item) => sum += item.price, 0);
-    }
-
-    _getProducts() {
-        return fetch(`${API}/catalogdata.json`)
+    getJson(url) {
+        return fetch(url ? url : `${API + this.url}`)
             .then(result => result.json())
             .catch(error => {
                 console.log(error);
             })
     }
+
+    handleData(data){
+        this.goods = [...data];
+        this.render();
+    }
+
+    calcSum() {
+        return this.allProducts.reduce((accum, item) => accum += item.price, 0);
+    }
+
+    render() {
+        const block = document.querySelector(this.container);
+        for (let product of this.goods){
+            //console.log(this.constructor.name);
+            const productObj = new this.list[this.constructor.name](product); //мы сделали объект товара либо CartItem, либо ProductItem
+//            console.log(productObj);
+            this.allProducts.push(productObj);
+            block.insertAdjacentHTML('beforeend', productObj.render());
+        }
+    }
+
+    filter(value) {
+        const regexp = new RegExp(value, 'i');
+        this.filtered = this.allProducts.filter(product => regexp.test(product.title));
+        this.allProducts.forEach(el => {
+            const block = document.querySelector(`.catalog__item[data-id="${el.id}"]`);
+            if(!this.filtered.includes(el)){
+                block.classList.add('visually-hidden');
+            } else {
+                block.classList.remove('visually-hidden');
+            }
+        })
+    }
+
+    _init() {
+        return false
+    }
 }
 
-class ProductItem{
-	constructor(product, description = 'Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.'){
-		this.title = product.title;
-		this.price = product.price;
-		this.id = product.id;
-        this.image = product.image;
-        if(product.description)
-            this.description = product.description;
-        else
-            this.description = description;
-		
-	}
-	
-	render(){
-            return `<div class="catalog__item" data-id="${this.id}"><div class="catalog__item-imgwrapper"><img class="catalog__item-img" src="${this.image}" alt="${this.title}"><div class="catalog__item-overlay"></div><button type="button" class="catalog__item-button"><img src="img/basket.svg" alt="Добавить в корзину" class="catalog__item-btnimg"><span class="catalog__item-btntxt">Add to cart</span></button></div><h3 class="catalog__item-heading">${this.title}</h3><p class="catalog__item-text">${this.description}</p><p class="catalog__item-price">$${this.price}</p></div>`;
-	}
+class Item{
+    constructor(el){
+        this.id = el.id;
+        this.title = el.title;
+        this.price = el.price;
+        this.image = el.image;
+        this.description = el.description;
+    }
+
+    render() { //генерация товара для каталога товаров
+        return `<div class="catalog__item" data-id="${this.id}">
+                    <div class="catalog__item-imgwrapper">
+                        <img class="catalog__item-img" src="${this.image}" alt="${this.title}">
+                        <div class="catalog__item-overlay"></div>
+                        <button type="button" class="catalog__item-button add-button" data-id="${this.id}" data-title="${this.title}" data-price="${this.price}" data-image="${this.image}">
+                            <img src="img/basket.svg" alt="Добавить в корзину" class="catalog__item-btnimg add-button" data-id="${this.id}" data-title="${this.title}" data-price="${this.price}" data-image="${this.image}"><span class="catalog__item-btntxt add-button" data-id="${this.id}" data-title="${this.title}" data-price="${this.price}" data-image="${this.image}">Add to cart</span>
+                        </button>
+                    </div>
+                    <h3 class="catalog__item-heading">${this.title}</h3>
+                    <p class="catalog__item-text">${this.description}</p>
+                    <p class="catalog__item-price">$${this.price}</p>
+                </div>`
+    }
 }
+
+// *****************   КАТАЛОГ ТОВАРОВ   *****************
+
+class ProductsList extends List{
+    constructor(cart, container = '.catalog__grid', url = "/catalogdata.json"){
+        super(url, container);
+        this.cart = cart;
+        this.getJson()
+            .then(data => this.handleData(data)); //handleData запускает отрисовку либо каталога товаров, либо списка товаров корзины
+    }
+    _init(){
+        document.querySelector(this.container).addEventListener('click', e => {
+//            console.log(e.target);
+            if(e.target.classList.contains('add-button')) 
+                this.cart.addProduct(e.target);
+        });
+
+        document.querySelector('.header__search-form').addEventListener('submit', e => {
+            e.preventDefault();
+            this.filter(document.querySelector('.header__search-input').value)
+        });
+    }
+}
+        
+class ProductItem extends Item{}
 
 // *****************   КОРЗИНА   *****************
 
-class CartList { // класс списка товаров в корзине при заполнении из JSON
-    constructor(container = '.cart__list') {
-        this.container = container;
-        this.goodsInCart = [];
-        this._getProducts()
-            .then(data => { 
-                this.goodsInCart = [...data];
-                this.render()
+class Cart extends List{
+    constructor(container = ".cart__list", url = "/cartdata.json") {
+        super(url, container);
+        this.getJson()
+            .then(data => {
+                this.handleData(data.contents); //вывели все товары в корзине 
+                this._updatePrice();
             });
+    }
+    addProduct(element) {
+        this.getJson(`${API}/addtobasket.json`)
+            .then(data => {
+                if(data.result === 1){
+                    let productId = +element.dataset['id'];
+                    let find = this.allProducts.find(product => product.id === productId);
+                    if(find){
+                        find.quantity++;
+                        this._updateCart(find);
+                    } else {
+                        let product = {
+                            id: productId,
+                            title: element.dataset['title'],
+                            price: +element.dataset['price'],
+                            image: element.dataset['image'].replace('img/',''),
+                            size: "XL",
+                            color: "red",
+                            quantity: 1
+                        };
+                        this.goods = [product];
+                        this.render();
+                    }
+                    this._updatePrice();
+                } else {
+                    alert('Error');
+                }
+            });
+    }
+    removeProduct(element) {
+            // console.log(element.dataset['id']);
+        this.getJson(`${API}/deletefrombasket.json`)
+            .then(data => {
+                if(data.result === 1){
+                    let productId = +element.dataset['id'];
+                    let find = this.allProducts.find(product => product.id === productId);
+                    if(find.quantity > 1) {
+                        find.quantity--;
+                        this._updateCart(find);
+                    } else {
+                        this.allProducts.splice(this.allProducts.indexOf(find), 1);
+                        document.querySelector(`.cart__list-item[data-id="${productId}"]`).remove();
+                        this._updatePrice();
+                    }
+                } else {
+                    alert('Error');
+                }
+            });
+    }
+
+    _updateCart(product) {
+        let block = document.querySelector(`.cart__list-item[data-id="${product.id}"]`);
+        block.querySelector('.cart__list-qty').value = `${product.quantity}`;
+        block.querySelector('.cart__list-pink').textContent = `$${product.quantity*product.price}`;
+        this._updatePrice();
+    }
+
+    _updatePrice() {
+        let subtotalPrice = this.allProducts.reduce((sum,item)=>sum + item.price * item.quantity,0);
+        let totalQuantity = this.allProducts.reduce((sum,item)=>sum + item.quantity,0);
+
+        const subTotal = document.querySelector("#subtotal");
+        const grandTotal = document.querySelector("#grandtotal");
+        const Quantity = document.querySelector('.header__cart');
+        const Empty = document.querySelector('.cart__list-empty');
+
+        Quantity.textContent = totalQuantity;
+        if(totalQuantity > 0) {
+            Quantity.style.display = 'block';
+            Empty.classList.add('visually-hidden');
         }
-
-    _getProducts() {
-        return fetch(`${API}/cartdata.json`)
-            .then(result => result.json())
-            .catch(error => {
-                console.log(error);
-            })
-    }
-
-    AddToCart() {}
-    RemoveFromCart() {}
-    Checkout() {}
-    render() {
-        const block = document.querySelector(this.container);
-        for(let product of this.goodsInCart){
-            const productObj = new CartItem(product);
-            block.insertAdjacentHTML('beforeend',productObj.render())
+        else {
+            Quantity.style.display = 'none';
+            Empty.classList.remove('visually-hidden');
         }
-        this.updateTotalSum(this.calc());
-
+        Quantity.style.display = 'none';
+        subTotal.textContent = `sub total $${subtotalPrice}`;
+        grandTotal.textContent = `grand total $${subtotalPrice}`;
     }
 
-    calc() {
-        return this.goodsInCart.reduce((sum,item) => sum += (item.price * item.quantity), 0);
-    }
+    _init() {
+        // document.querySelector('.btn-cart').addEventListener('click', () => {
+        //     document.querySelector('.cart').classList.toggle('visually-hidden');
+        // });
+        document.querySelector('.cart').addEventListener('click', e => {
+            // console.log(e.target);
+            if(e.target.classList.contains('cart__list-cross')) {
+                this.removeProduct(e.target);
+            }
+            if(e.target.classList.contains('cart__list-plus')) {
+                this.addProduct(e.target);
+            }
+            if(e.target.classList.contains('cart__list-minus')) {
+                    this.removeProduct(e.target);
+            }
+            if(e.target.classList.contains('cart__list-clear')) {
+                let arr = document.querySelectorAll('.cart__list-item');
+                arr.forEach((item) => {
+                    if(!item.classList.contains('cart__list-empty'))
+                        this.removeProduct(item);
+                    else
+                        item.classList.remove('visually-hidden');
+                });
 
-    updateTotalSum(sum) {
-        let subTotal = document.querySelector("#subtotal");
-        let grandTotal = document.querySelector("#grandtotal");
-
-        subTotal.textContent = `sub total $${sum}`;
-        grandTotal.textContent = `grand total $${sum}`;
+        }
+    });
     }
 
 }
 
-class CartItem { // элемент корзины товаров
-    constructor(product, quantity = 1) {
-		this.id = product.id;
-		this.title = product.title;
-		this.price = product.price;
-        this.image = product.image;
-        this.size = product.size;
-        this.color = product.color;
-        if(product.quantity)
-            this.quantity = product.quantity;
-        else
-            this.quantity = quantity;
-    }
-    render() {
-        let renderStr = `<li class="cart__list-item" data-price="${this.price}" data-id="${this.id}">
-                    <img src="img/cart_${this.image}" alt="${this.title}" width="262" height="306" class="cart__list-img">
-                    <div class="cart__list-wrapper">
-                        <h3 class="cart__list-heading">${this.title}</h3>
-                        <p class="cart__list-text">Price: <span class="cart__list-pink" data-id="${this.id}" data-price="${this.price}">$${this.price}</span></p>
-                        <p class="cart__list-text">Color: ${this.color}</p>
-                        <p class="cart__list-text">Size: ${this.size}</p>
-                        <div class="cart__list-subwrapper">
-                            <label class="cart__list-text">Quantity:</label>
-                            <input type="text" class="cart__list-qty" value="${this.quantity}" placeholder="${this.quantity}" data-id="${this.id}" onchange="qtyChanged()">
-                        </div>
-                    </div>
-                </li>`;
-        return renderStr;
-    }
-}
-
-function renderProductList() { // функция вызывается при загрузке страницы каталога
-    let list = new ProductsList();
-    list.render();
-}
-
-function renderCartList() { // функция вызывается при загрузке страницы корзины
-    let cart = new CartList();
-    cart.render();
-}
-
-class cartCalc { // класс для пересчёта стоимости корзины
-    constructor() {
-        this.subtotal = this._getPrice('.cart__list-pink','.cart__list-qty');
-        this.grandtotal = this.subtotal;
-    }
-
-    _selectAll(name) {
-        return [...document.querySelectorAll(name)];
-    }
-
-    _getPrice(price,quantity) {
-        let result = this._selectAll(price).reduce((sum,item)=> {
-            return sum + (+item.dataset.price * this._qetQuantity(item.dataset.id,quantity));
-        },0);
-        return result;
-    }
-
-    _qetQuantity(id,quantity) {
-        let result = this._selectAll(quantity).filter(item=>item.dataset.id == id);
-        return +result[0].value;
+class CartItem extends Item{
+    constructor(el) {
+        super(el);
+        this.size = el.size;
+        this.color = el.color;
+        this.quantity = el.quantity;
     }
 
     render() {
-        let subTotal = document.querySelector("#subtotal");
-        let grandTotal = document.querySelector("#grandtotal");
-
-        subTotal.textContent = `sub total $${this.subtotal}`;
-        grandTotal.textContent = `grand total $${this.grandtotal}`;
-
+    return `<li class="cart__list-item" data-price="${this.price}" data-id="${this.id}">
+            <img src="img/cart_${this.image}" alt="${this.title}" width="262" height="306" class="cart__list-img">
+            <div class="cart__list-wrapper">
+            <h3 class="cart__list-heading">${this.title}</h3>
+            <p class="cart__list-text">Price: <span class="cart__list-pink" data-id="${this.id}" data-price="${this.price}">$${this.price}</span></p>
+            <p class="cart__list-text">Color: ${this.color}</p>
+            <p class="cart__list-text">Size: ${this.size}</p>
+            <img class="cart__list-cross" src="img/cross.svg" data-id="${this.id}">
+            <div class="cart__list-subwrapper">
+            <label class="cart__list-text">Quantity:</label>
+            <i class="fas fa-plus cart__list-plus" data-id="${this.id}"></i>
+            <input type="text" class="cart__list-qty" value="${this.quantity}" placeholder="${this.quantity}" data-id="${this.id}">
+            <i class="fas fa-minus cart__list-minus" data-id="${this.id}"></i>
+            </div></div></li>`;
     }
 }
 
-function qtyChanged() { // функция вызывается при изменении количества в элементе корзины
-    let cart = new cartCalc;
-    cart.render();
+const list2 = {
+    ProductsList: ProductItem,
+    Cart: CartItem
+};
 
+
+let cart = new Cart();
+let products = new ProductsList(cart);
+
+
+
+function toggleCart() { // отображение и скрытие корзины
+    const cart = document.querySelector(".cart");
+    const ovl = document.querySelector(".main__overlay");
+
+    if(cart) {
+        cart.classList.toggle("visually-hidden");
+        ovl.classList.toggle("visually-hidden");
+    }
 }
+

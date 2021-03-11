@@ -16,7 +16,7 @@
         margin: 0 41px 0 0;
     }
 
-    &__search {
+    &__search-input {
         display: none;
         width: 340px;
         min-height: 44px;
@@ -56,6 +56,15 @@
         }
     }
 
+    &__search-button {
+        margin: 0;
+
+        &:hover .header__search-input {
+            display: block;
+        }
+    }
+
+
     &__list {
         display: flex;
 
@@ -77,6 +86,7 @@
         background-color: transparent;
         border: none;
         margin: 0 0 0 33px;
+        position: relative;
 
         &:hover .header__icon {
             fill: $pink-color;
@@ -84,12 +94,17 @@
         }
     }
 
-    &__search_button {
-        margin: 0;
-
-        &:hover .header__search {
-            display: block;
-        }
+    &__cart {
+        color: $white-color;
+        position: absolute;
+        top: -10px;
+        right: -5px;
+        width: 24px;
+        height: 24px;
+        background: red;
+        border-radius: 12px;
+        @include font(15px, 24px, 700);
+        display: none;
     }
 
     &__navigation {
