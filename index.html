@@ -19,7 +19,7 @@
                 <div class="header__logo_wrapper">
                     <a href="index.html"><img class="header__logo" src="img/logo.svg" width="44" height="38"
                             alt="Логотип"></a>
-                    <form action="#" class="header__search-form">
+                    <form action="#" @submit="" class="header__search-form">
                         <button class="header__button header__search-button">
                             <svg width="27" height="28" viewBox="0 0 27 28" xmlns="http://www.w3.org/2000/svg"
                                 class="header__icon">
@@ -245,7 +245,8 @@
                             </li>
                         </ul>
                         <ul class="cart__list-buttons">
-                            <li><button type="reset" class="cart__list-button cart__list-clear">clear shopping
+                            <li><button type="reset" class="cart__list-button cart__list-clear"
+                                    @click="clearCart()">clear shopping
                                     cart</button>
                             </li>
                             <li><button type="button" class="cart__list-button cart__list-continue"

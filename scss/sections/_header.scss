@@ -24,6 +24,7 @@
         margin: 0 0 0 20px;
         padding: 0 0 0 17px;
         text-transform: capitalize;
+        outline: none;
 
         ::-webkit-input-placeholder {
             color: $lightgraytext-color;
@@ -49,6 +50,10 @@
 
         &:focus {
             display: block;
+            outline: none;
+        }
+
+        &:active {
             outline: none;
         }
 
