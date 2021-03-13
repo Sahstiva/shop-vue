@@ -6983,12 +6983,12 @@ readers do not read off random characters that represent icons */
   width: 360px;
 }
 
-.registration__fieldset {
+.registration__form__fieldset {
   margin: 34px 0 0 0;
 }
 
 @media (max-width: 635px) {
-  .registration__fieldset {
+  .registration__form__fieldset {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -7002,7 +7002,7 @@ readers do not read off random characters that represent icons */
   }
 }
 
-.registration__form_name_legend {
+.registration__form-name-legend {
   font-size: 16px;
   line-height: 19px;
   font-weight: 300;
@@ -7012,7 +7012,7 @@ readers do not read off random characters that represent icons */
 }
 
 @media (max-width: 635px) {
-  .registration__form_name_legend {
+  .registration__form-name-legend {
     padding: 0 0 0 10px;
   }
 }
@@ -7060,7 +7060,7 @@ readers do not read off random characters that represent icons */
   font-style: normal;
 }
 
-.registration__fieldset_radio {
+.registration__form-fieldset-radio {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -7070,17 +7070,17 @@ readers do not read off random characters that represent icons */
 }
 
 @media (max-width: 635px) {
-  .registration__fieldset_radio {
+  .registration__form-fieldset-radio {
     padding: 0 0 0 10px;
   }
 }
 
-.registration__form_radio {
+.registration__form-radio {
   margin: 33px 20px 0 0;
   display: none;
 }
 
-.registration__form_gender {
+.registration__form-gender {
   font-size: 11px;
   line-height: 13px;
   font-weight: 300;
@@ -7091,7 +7091,7 @@ readers do not read off random characters that represent icons */
   position: relative;
 }
 
-.registration__form_gender::before {
+.registration__form-gender::before {
   position: absolute;
   content: "";
   width: 17px;
@@ -7102,22 +7102,23 @@ readers do not read off random characters that represent icons */
   top: -3px;
 }
 
-.registration__form_login_legend {
+.registration__form-login {
   font-size: 16px;
   line-height: 19px;
   font-weight: 300;
   font-style: normal;
   color: #222224;
   text-transform: capitalize;
+  margin: 30px 0 0 0;
 }
 
 @media (max-width: 635px) {
-  .registration__form_login_legend {
+  .registration__form-login {
     padding: 0 0 0 10px;
   }
 }
 
-.registration__form_text {
+.registration__form-text {
   font-size: 13px;
   line-height: 16px;
   font-weight: 300;
@@ -7129,12 +7130,12 @@ readers do not read off random characters that represent icons */
 }
 
 @media (max-width: 635px) {
-  .registration__form_text {
+  .registration__form-text {
     padding: 0 0 0 10px;
   }
 }
 
-.registration__form_submit {
+.registration__form-submit {
   width: 167px;
   height: 50px;
   margin: 40px 0 0 0;
@@ -7148,25 +7149,34 @@ readers do not read off random characters that represent icons */
 }
 
 @media (max-width: 635px) {
-  .registration__form_submit {
+  .registration__form-submit {
     margin: 40px 0 0 10px;
   }
 }
 
-.registration__form_submit:hover {
+.registration__form-submit:hover {
   color: #F16D7F;
   background: #FFFFFF;
   border: 1px solid #F16D7F;
 }
 
-.registration__form_submit::after {
+.registration__form-submit::after {
   content: url("../img/arrow.svg");
   position: absolute;
   right: 30px;
 }
 
-.registration__form-wrong {
+.registration__form-invalid {
   border-color: red;
+  color: red;
+}
+
+.registration__form-valid {
+  border-color: green;
+  color: green;
+}
+
+.registration__form-error-msg {
   color: red;
 }
 

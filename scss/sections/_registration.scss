@@ -17,150 +17,156 @@
         flex-direction: column;
         width: 360px;
 
-    }
+        &__fieldset {
+            margin: 34px 0 0 0;
+    
+            @include mobileL {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    
+        &-name-legend {
+            @include font(16px, 19px);
+            color: $black-color;
+            text-transform: capitalize;
+    
+            @include mobileL {
+                padding: 0 0 0 10px;
+            }
+        }
 
-    &__fieldset {
-        margin: 34px 0 0 0;
-
-        @include mobileL {
+        &-input {
+            width: 340px;
+            min-height: 44px;
+            border: 1px solid #A4A4A4;
+            margin: 20px 0 0 0;
+            padding: 0 0 0 17px;
+            text-transform: capitalize;
+    
+            ::-webkit-input-placeholder {
+                color: $lightgraytext-color;
+                @include font(13px, 16px);
+            }
+    
+            ::-moz-placeholder {
+                /* Firefox 19+ */
+                color: $lightgraytext-color;
+                @include font(13px, 16px);
+            }
+    
+            :-ms-input-placeholder {
+                color: $lightgraytext-color;
+                @include font(13px, 16px);
+            }
+    
+            :-moz-placeholder {
+                /* Firefox 18- */
+                color: $lightgraytext-color;
+                @include font(13px, 16px);
+            }
+        }
+    
+        &-fieldset-radio {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: start;
+    
+            @include mobileL {
+                padding: 0 0 0 10px;
+            }
         }
-    }
-
-    &__form_name_legend {
-        @include font(16px, 19px);
-        color: $black-color;
-        text-transform: capitalize;
-
-        @include mobileL {
-            padding: 0 0 0 10px;
+        
+        &-radio {
+            margin: 33px 20px 0 0;
+            display: none;
+    
         }
-    }
-
-    &__form-input {
-        width: 340px;
-        min-height: 44px;
-        border: 1px solid #A4A4A4;
-        margin: 20px 0 0 0;
-        padding: 0 0 0 17px;
-        text-transform: capitalize;
-
-        ::-webkit-input-placeholder {
-            color: $lightgraytext-color;
+    
+        &-gender {
+            @include font(11px, 13px);
+            color: $darkblack-color;
+            text-transform: capitalize;
+            margin: 34px 20px 0 34px;
+            position: relative;
+        }
+    
+        &-gender::before {
+            position: absolute;
+            content: "";
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            border: 1px solid #A4A4A4;
+            left: -34px;
+            top: -3px;
+        }
+        &-login {
+            @include font(16px, 19px);
+            color: $black-color;
+            text-transform: capitalize;
+            margin: 30px 0 0 0;
+    
+            @include mobileL {
+                padding: 0 0 0 10px;
+            }
+        }
+    
+        &-text {
             @include font(13px, 16px);
-        }
-
-        ::-moz-placeholder {
-            /* Firefox 19+ */
             color: $lightgraytext-color;
-            @include font(13px, 16px);
+            margin: 15px 0 0 0;
+            display: block;
+            max-width: 360px;
+    
+            @include mobileL {
+                padding: 0 0 0 10px;
+            }
         }
 
-        :-ms-input-placeholder {
-            color: $lightgraytext-color;
-            @include font(13px, 16px);
+        &-submit {
+            width: 167px;
+            height: 50px;
+            margin: 40px 0 0 0;
+            background: $pink-color;
+            color: $white-color;
+            text-transform: uppercase;
+            border: none;
+            position: relative;
+            text-align: left;
+            padding: 0 0 0 30px;
+    
+            @include mobileL {
+                margin: 40px 0 0 10px;
+            }
+    
+            &:hover {
+                color: $pink-color;
+                background: $white-color;
+                border: 1px solid $pink-color;
+            }
+        }
+    
+        &-submit::after {
+            content: url("../img/arrow.svg");
+            position: absolute;
+            right: 30px;
+        }
+    
+        &-invalid {
+            border-color: red;
+            color: red;
         }
 
-        :-moz-placeholder {
-            /* Firefox 18- */
-            color: $lightgraytext-color;
-            @include font(13px, 16px);
+        &-valid {
+            border-color: green;
+            color: green;
+        }
+        
+        &-error-msg {
+            color: red;
         }
     }
-
-    &__fieldset_radio {
-        display: flex;
-        justify-content: start;
-
-        @include mobileL {
-            padding: 0 0 0 10px;
-        }
-    }
-
-    &__form_radio {
-        margin: 33px 20px 0 0;
-        display: none;
-
-    }
-
-    &__form_gender {
-        @include font(11px, 13px);
-        color: $darkblack-color;
-        text-transform: capitalize;
-        margin: 34px 20px 0 34px;
-        position: relative;
-    }
-
-    &__form_gender::before {
-        position: absolute;
-        content: "";
-        width: 17px;
-        height: 17px;
-        border-radius: 50%;
-        border: 1px solid #A4A4A4;
-        left: -34px;
-        top: -3px;
-    }
-
-    &__form_login_legend {
-        @include font(16px, 19px);
-        color: $black-color;
-        text-transform: capitalize;
-
-        @include mobileL {
-            padding: 0 0 0 10px;
-        }
-    }
-
-    &__form_text {
-        @include font(13px, 16px);
-        color: $lightgraytext-color;
-        margin: 15px 0 0 0;
-        display: block;
-        max-width: 360px;
-
-        @include mobileL {
-            padding: 0 0 0 10px;
-        }
-    }
-
-    &__form_submit {
-        width: 167px;
-        height: 50px;
-        margin: 40px 0 0 0;
-        background: $pink-color;
-        color: $white-color;
-        text-transform: uppercase;
-        border: none;
-        position: relative;
-        text-align: left;
-        padding: 0 0 0 30px;
-
-        @include mobileL {
-            margin: 40px 0 0 10px;
-        }
-
-        &:hover {
-            color: $pink-color;
-            background: $white-color;
-            border: 1px solid $pink-color;
-        }
-    }
-
-
-    &__form_submit::after {
-        content: url("../img/arrow.svg");
-        position: absolute;
-        right: 30px;
-    }
-
-    &__form-wrong {
-        border-color: red;
-        color: red;
-    }
-
 
     &__text {
         max-width: 35%;
