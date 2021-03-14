@@ -6470,11 +6470,9 @@ readers do not read off random characters that represent icons */
   line-height: 24px;
   font-weight: 700;
   font-style: normal;
-  display: none;
 }
 
 .header__navigation {
-  display: none;
   position: absolute;
   right: 0px;
   top: 75px;
