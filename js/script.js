@@ -15,6 +15,14 @@ const app = new Vue({
         filtered: function () {
             const regexp = new RegExp(this.userSearch, 'i');
             return this.products.filter(product => regexp.test(product.title));
+        },
+
+        quantity: function() {
+            return this.cart.reduce((sum, item) => sum + item.quantity,0);
+        },
+
+        total: function () {
+            return this.cart.reduce((sum, item) => sum + item.price * item.quantity,0);
         }
     },
     methods: {
