@@ -6359,6 +6359,7 @@ readers do not read off random characters that represent icons */
   margin: 0 0 0 20px;
   padding: 0 0 0 17px;
   text-transform: capitalize;
+  outline: none;
 }
 
 .header__search-input ::-webkit-input-placeholder {
@@ -6397,6 +6398,11 @@ readers do not read off random characters that represent icons */
 
 .header__search-input:focus {
   display: block;
+  outline: none;
+}
+
+.header__search-input:active {
+  outline: none;
 }
 
 @media (max-width: 635px) {
@@ -7301,9 +7307,6 @@ readers do not read off random characters that represent icons */
   width: 100%;
   background: #FFFFFF;
   z-index: 2;
-  position: absolute;
-  top: -132px;
-  left: 0;
 }
 
 @media (max-width: 1024px) {
