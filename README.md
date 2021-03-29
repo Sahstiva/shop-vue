@@ -1,8 +1,8 @@
 # Проект пересобран с помощью webpack
 
 Установлены модули, лоадеры и плагины:
-    "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12",
+* "@babel/core": "^7.13.14",
+* "@babel/preset-env": "^7.13.12",
     "babel-loader": "^8.2.2",
     "bootstrap": "^5.0.0-beta3",
     "copy-webpack-plugin": "^8.1.0",
