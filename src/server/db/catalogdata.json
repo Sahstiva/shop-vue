@@ -1,0 +1,65 @@
+[
+    { 
+        "id": 1, 
+        "title": "A man with the backpack", 
+        "price": 150, 
+        "image": "img/man_with_backpack.jpg", 
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+    },
+    { 
+        "id": 2,
+        "title": "A man in the red shirt",
+        "price": 50, 
+        "image": "img/man_in_red_shirt.jpg", 
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+    },
+    { 
+        "id": 3,
+        "title": "A man in a hoody",
+        "price": 350, 
+        "image": "img/man_in_hoody.jpg", 
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+    },
+    { 
+        "id": 4,
+        "title": "A man in a yellow pants", 
+        "price": 200, 
+        "image": "img/man_yellow_pants.jpg", 
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+    },
+    { 
+        "id": 5,
+        "title": "A man in a white shirt", 
+        "price": 100, 
+        "image": "img/man_in_white_shirt.jpg",
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi." 
+    },
+    { 
+        "id": 6,
+        "title": "A man in a baseball cap", 
+        "price": 99, 
+        "image": "img/man_in_baseball_cap.jpg", 
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+    },
+    { 
+        "id": 7,
+        "title": "A man with the belt", 
+        "price": 149, 
+        "image": "img/man_with_the_belt.jpg", 
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+    },
+    { 
+        "id": 8,
+        "title": "A man with the dog", 
+        "price": 300, 
+        "image": "img/man_with_a_dog.jpg", 
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+    },
+    { 
+        "id": 9,
+        "title": "A man man scratching his head", 
+        "price": 255, 
+        "image": "img/man_scratching_his_head.jpg", 
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi."
+    }
+]
