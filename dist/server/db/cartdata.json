@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "title": "A man with the backpack",
+        "price": 150,
+        "image": "img/man_with_backpack.jpg",
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.",
+        "size": "XL",
+        "color": "red",
+        "quantity": 1
+    },
+    {
+        "id": 4,
+        "title": "A man in a yellow pants",
+        "price": 200,
+        "image": "img/man_yellow_pants.jpg",
+        "description": "Known for her sculptural takes on traditional tailoring, Australian arbiter of cool Kym Ellery teams up with Moda Operandi.",
+        "size": "XL",
+        "color": "red",
+        "quantity": 1
+    }
+]
